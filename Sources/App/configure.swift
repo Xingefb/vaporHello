@@ -1,11 +1,13 @@
 import FluentSQLite
 import Vapor
+import LocalAuthentication
 
 /// Called before your application initializes.
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
     /// Register providers first
     try services.register(FluentSQLiteProvider())
-
+//    services.register(SSLAuthenticate.alwaysAuthenticate as! ServiceFactory)
+    
     /// Register routes to the router
     let router = EngineRouter.default()
     try routes(router)
@@ -29,5 +31,9 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     var migrations = MigrationConfig()
     migrations.add(model: Todo.self, database: .sqlite)
     services.register(migrations)
+    
+    // If you do't like port ,you can change port or others
+//    let myService = NIOServerConfig.default(port: 8001)
+//    services.register(myService)
 
 }
